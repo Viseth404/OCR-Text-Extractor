@@ -2,131 +2,79 @@ import React, { useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
 import { SunIcon, MoonIcon } from "@heroicons/react/solid";
 
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-
 function App() {
   const [image, setImage] = useState(null);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [saveSuccess, setSaveSuccess] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Handle pasted images
+  // Handle pasted images and auto-extract text
   const handlePaste = (event) => {
     const items = event.clipboardData.items;
-    let foundImage = false;
-
     for (let i = 0; i < items.length; i++) {
       if (items[i].type.startsWith("image")) {
         const file = items[i].getAsFile();
         if (file) {
-          setImage(URL.createObjectURL(file));
+          const imageUrl = URL.createObjectURL(file);
+          setImage(imageUrl);
           setError("");
-          foundImage = true;
-          break; // Stop searching after the first image is found
+
+          // Automatically extract text after setting the image
+          setLoading(true);
+          Tesseract.recognize(imageUrl, "eng+khm")
+            .then(({ data: { text } }) => {
+              setText(text);
+              setLoading(false);
+            })
+            .catch(() => {
+              setError("Failed to extract text. Please try another image.");
+              setLoading(false);
+            });
+          break;
         }
       }
     }
-
-    if (!foundImage) {
-      setError("No image found in the clipboard. Please paste a valid image.");
-    }
   };
-
-  // Extract text from the image
-  const extractText = () => {
-    if (!image) {
-      setError("Please upload an image, paste an image, or enter a URL first!");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-    setText("");
-    setSaveSuccess(false);
-
-    Tesseract.recognize(image, "eng+khm")
-      .then(({ data: { text } }) => {
-        setText(text);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error:", err);
-        setError("Failed to extract text. Please try another image.");
-        setLoading(false);
-      });
-  };
-
   // Save extracted text
   const saveText = () => {
-    if (!text) {
-      setError("No text to save!");
-      return;
-    }
+    if (!text) return;
 
     const blob = new Blob([text], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = "extracted_text.txt";
     link.click();
-    setSaveSuccess(true);
   };
-
   // Copy extracted text
   const copyText = () => {
-    if (!text) {
-      setError("No text to copy!");
-      return;
-    }
+    if (!text) return;
 
-    navigator.clipboard.writeText(text).then(() => {
-      setSaveSuccess(true);
-      setError(""); // Clear previous errors
-    }).catch((err) => {
-      console.error("Error copying text:", err);
+    navigator.clipboard.writeText(text).catch(() => {
       setError("Failed to copy text.");
     });
   };
-
   // Toggle theme
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
-
-  // Handle Enter key
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      extractText();
-    }
-  };
-
-  // Attach event listeners for both paste and keydown
+  // Attach event listeners for paste
   useEffect(() => {
-    const handlePasteWrapper = (event) => handlePaste(event);
-    const handleKeyDownWrapper = (event) => handleKeyDown(event);
-
-    // Add event listeners
-    window.addEventListener("paste", handlePasteWrapper);
-    window.addEventListener("keydown", handleKeyDownWrapper);
-
-    // Cleanup on unmount
+    window.addEventListener("paste", handlePaste);
     return () => {
-      window.removeEventListener("paste", handlePasteWrapper);
-      window.removeEventListener("keydown", handleKeyDownWrapper);
+      window.removeEventListener("paste", handlePaste);
     };
-  }, [image]);
-
+  }, []);
   return (
     <div
       className={`flex flex-col items-center justify-center min-h-screen ${
         isDarkMode ? "bg-[#121212] text-gray-300" : "bg-[#f0f0f0] text-gray-900"
-      } font-sans p-6`}
+      } font-sans p-6 transition-all duration-500`}
     >
       <div
         className={`${
           isDarkMode ? "bg-[#181818] border-[#333]" : "bg-white border-[#ddd]"
-        } rounded-lg shadow-lg p-8 max-w-lg w-full border`}
+        } rounded-lg shadow-lg p-8 max-w-lg w-full border transition-all duration-500`}
       >
         <h1 className="text-4xl font-extrabold text-[#E50914] text-center mb-6">
           Image to Text
@@ -134,7 +82,7 @@ function App() {
 
         <button
           onClick={toggleTheme}
-          className={`mb-4 w-full py-2 px-4 rounded-md flex items-center justify-center transition ${
+          className={`mb-4 w-full py-2 px-4 rounded-md flex items-center justify-center transition-all duration-300 ${
             isDarkMode ? "bg-[#E50914] text-white" : "bg-[#333] text-white"
           }`}
         >
@@ -173,23 +121,11 @@ function App() {
           </div>
         )}
 
-        <button
-          onClick={extractText}
-          disabled={loading}
-          className={`w-full py-2 px-4 rounded-md mt-4 transition ${
-            loading
-              ? "bg-gray-600 cursor-not-allowed"
-              : "bg-[#E50914] hover:bg-[#B81D24] text-white"
-          }`}
-        >
-          {loading ? (
-            <div className="flex justify-center">
-              <div className="w-5 h-5 border-4 border-[#E50914] border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          ) : (
-            "Extract Text"
-          )}
-        </button>
+        {loading && (
+          <div className="flex justify-center mt-4">
+            <div className="w-5 h-5 border-4 border-[#E50914] border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
 
         {text && (
           <div className="mt-4 flex justify-between items-center">
@@ -207,7 +143,6 @@ function App() {
             </button>
           </div>
         )}
-
         {text && (
           <div className="mt-6">
             <h2 className="text-lg font-medium text-gray-300 mb-2">
