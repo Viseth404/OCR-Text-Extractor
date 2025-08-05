@@ -70,7 +70,7 @@ function App() {
     : {
         bg: "bg-white",
         card: "bg-white",
-        text: "text-black",
+        text: "text-black",  
         border: "border-neutral-300",
         input: "bg-neutral-100 text-black",
         label: "text-neutral-600",
