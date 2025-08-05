@@ -2,7 +2,6 @@
   "name": "ocr-tool",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Seth-shaq.github.io/Image-to-Text",
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "cra-template": "1.2.0",
