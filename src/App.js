@@ -144,7 +144,7 @@ function App() {
       </div>
 
       <footer className="text-xs text-center mt-8 opacity-50 select-none">
-        RITHKEOVISETH ❤️ — 2025
+        RITHKEOVISETH — 2025
       </footer>
     </div>
   );
