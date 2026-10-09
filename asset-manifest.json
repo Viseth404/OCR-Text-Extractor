@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/OCR-Text-Extractor/static/css/main.cbaf9e7b.css",
+    "main.js": "/OCR-Text-Extractor/static/js/main.6b3ae46e.js",
+    "index.html": "/OCR-Text-Extractor/index.html",
+    "main.cbaf9e7b.css.map": "/OCR-Text-Extractor/static/css/main.cbaf9e7b.css.map",
+    "main.6b3ae46e.js.map": "/OCR-Text-Extractor/static/js/main.6b3ae46e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cbaf9e7b.css",
+    "static/js/main.6b3ae46e.js"
+  ]
+}
