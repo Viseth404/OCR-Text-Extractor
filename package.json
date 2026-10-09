@@ -2,7 +2,7 @@
   "name": "ocr-tool",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://viseth404.github.io/OCR-Text-Extractor",
+  "homepage": ".",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "pdfjs-dist": "^6.4.299",

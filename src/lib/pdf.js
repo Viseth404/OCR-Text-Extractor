@@ -2,7 +2,10 @@
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // Copied into public/pdfjs/ by scripts/copy-pdfjs-assets.js (runs before start/build).
-const PDFJS_ASSETS = `${process.env.PUBLIC_URL}/pdfjs`;
+// Absolute URL: the wasm/cmap/font URLs are fetched from inside the worker, where a
+// relative path would resolve against the worker's location instead of the page.
+// (PUBLIC_URL is "." because "homepage" is relative, for GitHub Pages and Vercel alike.)
+const PDFJS_ASSETS = new URL(`${process.env.PUBLIC_URL}/pdfjs`, window.location.href).href;
 pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_ASSETS}/pdf.worker.min.mjs`;
 
 const PDF_RENDER_SCALE = 2;
