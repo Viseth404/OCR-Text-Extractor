@@ -27,3 +27,6 @@ yarn-error.log*
 
 # tesseract language cache (from npm run slip:fixture)
 *.traineddata
+
+# copied from node_modules by scripts/copy-pdfjs-assets.js
+/public/pdfjs
