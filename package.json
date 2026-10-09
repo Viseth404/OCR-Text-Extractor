@@ -2,9 +2,9 @@
   "name": "ocr-tool",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://viseth404.github.io/OCR-Text-Extractor",
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
-    "cra-template": "1.2.0",
+    "@heroicons/react": "^2.2.0",
     "pdfjs-dist": "^3.11.174",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -18,7 +18,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "dev": "react-scripts start"
+    "dev": "react-scripts start",
+    "slip:fixture": "node scripts/slip-fixture.js"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "autoprefixer": "^10.4.20",
     "gh-pages": "^6.3.0",
     "postcss": "^8.5.1",

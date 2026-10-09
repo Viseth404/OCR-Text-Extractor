@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# real bank slips (private)
+/samples
+
+# tesseract language cache (from npm run slip:fixture)
+*.traineddata
