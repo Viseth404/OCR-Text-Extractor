@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/OCR-Text-Extractor/static/css/main.cbaf9e7b.css",
-    "main.js": "/OCR-Text-Extractor/static/js/main.6b3ae46e.js",
-    "index.html": "/OCR-Text-Extractor/index.html",
-    "main.cbaf9e7b.css.map": "/OCR-Text-Extractor/static/css/main.cbaf9e7b.css.map",
-    "main.6b3ae46e.js.map": "/OCR-Text-Extractor/static/js/main.6b3ae46e.js.map"
+    "main.css": "./static/css/main.c0973558.css",
+    "main.js": "./static/js/main.eb5b12cc.js",
+    "index.html": "./index.html",
+    "main.c0973558.css.map": "./static/css/main.c0973558.css.map",
+    "main.eb5b12cc.js.map": "./static/js/main.eb5b12cc.js.map"
   },
   "entrypoints": [
-    "static/css/main.cbaf9e7b.css",
-    "static/js/main.6b3ae46e.js"
+    "static/css/main.c0973558.css",
+    "static/js/main.eb5b12cc.js"
   ]
 }
